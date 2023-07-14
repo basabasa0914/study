@@ -169,7 +169,7 @@ function getUser( index)
 console.log( users);
 addUser( "tsubasa", "japan");
 console.log( users);
-addUser( "dio", "india");
+addUser( "dio", "インディア");
 console.log( users);
 console.log( getUser( 0));
 console.log( getUser( 1));
