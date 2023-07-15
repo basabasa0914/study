@@ -201,6 +201,7 @@ class UserManeger
 let um = new UserManeger( );  //👉new = function
 //UserManeger.addUser( "zyodio", "america");
 um.addUser( "zyodio", "america");
-um.addUser( "太郎" , "日本");
+um.addUser( "徐倫" , "日本");
 console.log( um);
 console.log( um.getUser( 0));
+
