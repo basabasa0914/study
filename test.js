@@ -229,7 +229,7 @@ catch ( e)
 {
   console.log( e); //👉 e = "ユーザー番号にマイナスが指定されました"
 }
-// let e = new Error　👉「throw」 と　「catch」によって生成された文
+// (e)228行目 と let e = new Error は同義　👉「throw」211行目と「catch」228行目によって,Error( "ユーザー番号にマイナスが指定されました")は(e)に代入される。
 /* Error( "ユーザー番号にマイナスが指定されました") 👉ErrorクラスのConstractor( )の中身は
 ( "ユーザー番号にマイナスが指定されました")である。*/
 
