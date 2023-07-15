@@ -175,7 +175,9 @@ console.log( getUser( 0));
 console.log( getUser( 1));
 
 
-
+/**
+ * ユーザーを管理するクラス
+ */
 class UserManeger 
 {
    users ;
@@ -197,6 +199,15 @@ class UserManeger
    {
     return this.users[ index];
    }
+
+   /**
+    * ユーザーを削除する
+    * @param {*} index 削除するユーザーの番号
+    */
+   deleteUser( index)
+   {
+      delete this.users[ index];
+   }
 }
 let um = new UserManeger( );  //👉new = function
 //UserManeger.addUser( "zyodio", "america");
@@ -204,4 +215,5 @@ um.addUser( "zyodio", "america");
 um.addUser( "徐倫" , "日本");
 console.log( um);
 console.log( um.getUser( 0));
-
+um.deleteUser( 0);
+console.log( um);
