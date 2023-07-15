@@ -180,11 +180,11 @@ console.log( getUser( 1));
  */
 class UserManeger 
 {
-   users ;
+    users ;
    constructor( )    //👉変数として代入された値を順番に配列として保存(保存)👉 = [ ];
-   {
+    {
      this.users = [ ];
-   }  //👉 let users は181文と同義          
+   }  //👉 let users は183行目と同義          
     
    addUser( pName, pCountry)
    {
@@ -206,6 +206,10 @@ class UserManeger
     */
    deleteUser( index)
    {
+      if( index < 0)
+      {
+        throw new Error( "ユーザー番号にマイナスが指定されました")
+      }
       delete this.users[ index];
    }
 }
@@ -217,3 +221,15 @@ console.log( um);
 console.log( um.getUser( 0));
 um.deleteUser( 0);
 console.log( um);
+try
+{
+  um.deleteUser( -1);  //👉少数点がある数値以外かつマイナスの数値であればなんでもいい。
+}
+catch ( e)
+{
+  console.log( e); //👉 e = "ユーザー番号にマイナスが指定されました"
+}
+// let e = new Error　👉「throw」 と　「catch」によって生成された文
+/* Error( "ユーザー番号にマイナスが指定されました") 👉ErrorクラスのConstractor( )の中身は
+( "ユーザー番号にマイナスが指定されました")である。*/
+
