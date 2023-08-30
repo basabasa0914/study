@@ -5,7 +5,24 @@
  </head>
  <body>
   Hello world
-  <script src="./test.js">
+  <form id="form0" action="test.html" method="post">
+   <input type="text" id="name" value="" title="名前">
+   <input type="text" id="addr" value="" title="住所">
+   <input type="number" min="0" max="150" id="age" value="" title="年齢">
+   <input type="email" id="mail" value="" title="メール">
+   <br>
+   <button id="insert">入力</button>
+   <button id="search">検索</button>
+   <button id="update">更新</button>
+   <button id="delete">削除</button>
+  </form>
+  <p > </p>
+  <table border="1" id="users">
+   <tr>
+      <th></th><th>ID</th><th>名前</th><th>住所</th><th>年齢</th><th>メール</th>
+   </tr>
+  </table>
+  <script src="test2.js">
   </script>
  </body>
 </html>
