@@ -13,11 +13,11 @@ function SubmitEventFunc( event)
   let tdName = document.createElement( "td");
   let tdAddr = document.createElement( "td");
   let tdAge = document.createElement( "td");
-  let tdMail = document.createElement( "td");　　//👉ステップ１終了
+  let tdMail = document.createElemecnt( "td");　　//👉ステップ１終了
   console.log(  document.getElementById( "users").children.length);　　　//⭐️
   let inputCheck = document.createElement( "input");
   inputCheck.setAttribute( "type", "checkbox");
-  let txtID = document.createTextNode( generateID( document.getElementById( "users").children));　　//👉ステップ２開始　　👇👇
+  let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　//👉ステップ２開始　　👇👇
   let txtName = document.createTextNode( name.value);
   let txtAddr = document.createTextNode( addr.value);
   let txtAge = document.createTextNode( age.value + "歳");
@@ -38,7 +38,7 @@ function SubmitEventFunc( event)
   tr.appendChild( tdAddr);
   tr.appendChild( tdAge);
   tr.appendChild( tdMail);   //👉ステップ５終了
-  document.getElementById( "users").appendChild( tr);
+  document.getElementById( "users").children[0].appendChild( tr);
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "insert").addEventListener( "click", SubmitEventFunc);
@@ -51,9 +51,9 @@ function generateID( children)　　 //👆👆
   {
     if( Number( children[i].children[ 1].textContent) != NaN)
     {
-      if( Number( children[i].children[ 1].textContent) > ID)
+      if( Number(  children[i].children[ 1].textContent) > ID)
       {
-        ID = Number( children[i].children[ 1].textContent);
+        ID = Number(  children[i].children[ 1].textContent);
       }
     }
     //console.log( "ID "+ children[i].children[ 0].textContent + i);
