@@ -1,5 +1,5 @@
 
-function SubmitEventFunc( event)
+function Insert( event)
 {
   console.log( event);  　//⭐️
   //let check = document.getElementById( "check");
@@ -13,8 +13,8 @@ function SubmitEventFunc( event)
   let tdName = document.createElement( "td");
   let tdAddr = document.createElement( "td");
   let tdAge = document.createElement( "td");
-  let tdMail = document.createElemecnt( "td");　　//👉ステップ１終了
-  console.log(  document.getElementById( "users").children.length);　　　//⭐️
+  let tdMail = document.createElement( "td");　　//👉ステップ１終了
+  console.log(  document.getElementById( "users").children[ 0].children.length);　　　//⭐️
   let inputCheck = document.createElement( "input");
   inputCheck.setAttribute( "type", "checkbox");
   let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　//👉ステップ２開始　　👇👇
@@ -38,10 +38,10 @@ function SubmitEventFunc( event)
   tr.appendChild( tdAddr);
   tr.appendChild( tdAge);
   tr.appendChild( tdMail);   //👉ステップ５終了
-  document.getElementById( "users").children[0].appendChild( tr);
+  document.getElementById( "users").children[ 0].appendChild( tr);
   event.preventDefault( );    //👉これは絶対必須
 }
-document.getElementById( "insert").addEventListener( "click", SubmitEventFunc);
+document.getElementById( "insert").addEventListener( "click", Insert);
 
 
 function generateID( children)　　 //👆👆
@@ -62,15 +62,6 @@ function generateID( children)　　 //👆👆
 }
   
 
-
-
-
-
-
-
-
-
-
 /*53行目の (children[i].children[ 0].textContent) で table border要素内 👉 [ ID 名前	住所	年齢	メール ] の "ID"という文字列を取得
 
   取得した"ID"という文字列に対して、Number( )コンストラクタを用いたが数値に変える事はできず、"NaN"となる。
@@ -81,14 +72,38 @@ function generateID( children)　　 //👆👆
   
   5行目から42行目までの工程が全部なされなければ、 「.children」は「document.getElementById( "users")」の子要素としては見なされて無い。*/
 
-
-
-
-
-
-
- 
-
 //25・33行目 👉　<td><a></a></td>の要素が作成
 
 //👉 26と34行目は同義
+
+function Delete( event) 
+{
+  if( confirm( "選択されたデータを削除してもよいですか"))
+  {
+    let trs = document.getElementById( "users").children[ 0].children;
+    let checked = false;
+    for( i = 0; i < trs.length; i++)
+    {
+      if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
+      {
+        checked = true;
+        trs[ i].remove( );
+      }
+    }
+  if( checked == false)
+    {
+      alert( "削除するデータを一つ以上選択して下さい");
+      //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
+      //return false;
+    }
+    /*for( i = 0; i < trs.length; i++)
+    {
+      if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
+      {
+        trs[ i].remove( );
+      }
+    }*/
+  }
+  event.preventDefault( );
+}
+document.getElementById( "delete").addEventListener( "click", Delete);
