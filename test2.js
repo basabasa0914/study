@@ -3,48 +3,57 @@ function Insert( event)
 {
   console.log( event);  　//⭐️
   //let check = document.getElementById( "check");
-  let name = document.getElementById( "name");
+
+  let name = document.getElementById( "name");  
   let addr = document.getElementById( "addr");
   let age = document.getElementById( "age");
-  let mail = document.getElementById( "mail");
-  let tr = document.createElement( "tr");　　    //👉ステップ１開始
+  let mail = document.getElementById( "mail");   
+  
+  let tr = document.createElement( "tr");　　    
+  
   let tdCheck = document.createElement( "td");
   let tdID = document.createElement( "td");
   let tdName = document.createElement( "td");
   let tdAddr = document.createElement( "td");
   let tdAge = document.createElement( "td");
-  let tdMail = document.createElement( "td");　　//👉ステップ１終了
+  let tdMail = document.createElement( "td");　　
+  
   console.log(  document.getElementById( "users").children[ 0].children.length);　　　//⭐️
-  let inputCheck = document.createElement( "input");
+  
+  let inputCheck = document.createElement( "input");  
   inputCheck.setAttribute( "type", "checkbox");
-  let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　//👉ステップ２開始　　👇👇
+  let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　
   let txtName = document.createTextNode( name.value);
   let txtAddr = document.createTextNode( addr.value);
   let txtAge = document.createTextNode( age.value + "歳");
-  let txtMail = document.createTextNode( mail.value);                              　　//👉ステップ２終了
-  let aMail = document.createElement( "a");   //👉ステップ３開始
+  let txtMail = document.createTextNode( mail.value);                              
+  
+  let aMail = document.createElement( "a");   
   aMail.setAttribute( "href", "mailto:");
-  aMail.appendChild( txtMail);  //👉ステップ３終了
+  
+  aMail.appendChild( txtMail); 
+
   tdCheck.appendChild( inputCheck); 
-  tdID.appendChild( txtID);      //👉ステップ４開始
+  tdID.appendChild( txtID);      
   tdName.appendChild( txtName);  
   tdAddr.appendChild( txtAddr);
   tdAge.appendChild( txtAge);
-  tdMail.appendChild( aMail);    //👉ステップ４終了
+  tdMail.appendChild( aMail);    
+  
   //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
   tr.appendChild( tdCheck);
-  tr.appendChild( tdID);　　　//👉ステップ５開始
+  tr.appendChild( tdID);　　　
   tr.appendChild( tdName);
   tr.appendChild( tdAddr);
   tr.appendChild( tdAge);
-  tr.appendChild( tdMail);   //👉ステップ５終了
+  tr.appendChild( tdMail);   
   document.getElementById( "users").children[ 0].appendChild( tr);
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "insert").addEventListener( "click", Insert);
 
 
-function generateID( children)　　 //👆👆
+function generateID( children)　　 
 {
   let ID = 0;
   for( i = 0; i < children.length; i++)
@@ -90,7 +99,7 @@ function Delete( event)
         trs[ i].remove( );
       }
     }
-  if( checked == false)
+  if( checked == false) 　  //👉なぜ else　と書くと成り立たないのか？
     {
       alert( "削除するデータを一つ以上選択して下さい");
       //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
