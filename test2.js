@@ -1,3 +1,17 @@
+let data = [ {
+  "id": 1,
+  "name": "tsubasa",
+  "addr": "amagasaki",
+  "age": 22,
+  "mail": ".@tsubasa"
+},
+{
+  "id": 2,
+  "name": "zyosuke",
+  "addr": "morio",
+  "age": 16,
+  "mail": ".@zyosuke"
+}];
 
 function Insert( event)
 {
@@ -117,3 +131,57 @@ function Delete( event)
   event.preventDefault( );
 }
 document.getElementById( "delete").addEventListener( "click", Delete);
+
+
+/**
+ * データの表示
+ */
+function display( )
+{
+  for( const record of data)　　
+  {
+    // console.log( record);
+    // console.log( record.name);
+    let tr = document.createElement( "tr");　　    
+  
+    let tdCheck = document.createElement( "td");
+    let tdID = document.createElement( "td");
+    let tdName = document.createElement( "td");
+    let tdAddr = document.createElement( "td");
+    let tdAge = document.createElement( "td");
+    let tdMail = document.createElement( "td");　　
+    
+    console.log(  document.getElementById( "users").children[ 0].children.length);　　　//⭐️
+    
+    let inputCheck = document.createElement( "input");  
+    inputCheck.setAttribute( "type", "checkbox");
+    let txtID = document.createTextNode( record.id);　　
+    let txtName = document.createTextNode( record.name);
+    let txtAddr = document.createTextNode( record.addr);
+    let txtAge = document.createTextNode( record.age + "歳");
+    let txtMail = document.createTextNode( record.mail);                              
+    
+    let aMail = document.createElement( "a");   
+    aMail.setAttribute( "href", "mailto:");
+    
+    aMail.appendChild( txtMail); 
+  
+    tdCheck.appendChild( inputCheck); 
+    tdID.appendChild( txtID);      
+    tdName.appendChild( txtName);  
+    tdAddr.appendChild( txtAddr);
+    tdAge.appendChild( txtAge);
+    tdMail.appendChild( aMail);    
+    
+    //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
+    tr.appendChild( tdCheck);
+    tr.appendChild( tdID);　　　
+    tr.appendChild( tdName);
+    tr.appendChild( tdAddr);
+    tr.appendChild( tdAge);
+    tr.appendChild( tdMail);   
+    document.getElementById( "users").children[ 0].appendChild( tr);
+  
+  }
+}
+display();
