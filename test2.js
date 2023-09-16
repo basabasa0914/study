@@ -98,20 +98,21 @@ function Delete( event)
         checked = true;
         trs[ i].remove( );
       }
+      
     }
-  if( checked == false) 　  //👉なぜ else　と書くと成り立たないのか？
+    if( checked == false) 　  //👉なぜ else　と書くと成り立たないのか？
     {
       alert( "削除するデータを一つ以上選択して下さい");
       //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
       //return false;
     }
-    /*for( i = 0; i < trs.length; i++)
-    {
-      if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
-      {
-        trs[ i].remove( );
-      }
-    }*/
+    // for( i = 0; i < trs.length; i++)
+    // {
+    //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
+    //   {
+    //     trs[ i].remove( );
+    //   }
+    // }
   }
   event.preventDefault( );
 }
