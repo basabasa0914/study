@@ -16,69 +16,42 @@ let data = [ {
 function Insert( event)
 {
   console.log( event);  　//⭐️
-  //let check = document.getElementById( "check");
+ 
 
   let name = document.getElementById( "name");  
   let addr = document.getElementById( "addr");
   let age = document.getElementById( "age");
   let mail = document.getElementById( "mail");   
   
-  let tr = document.createElement( "tr");　　    
-  
-  let tdCheck = document.createElement( "td");
-  let tdID = document.createElement( "td");
-  let tdName = document.createElement( "td");
-  let tdAddr = document.createElement( "td");
-  let tdAge = document.createElement( "td");
-  let tdMail = document.createElement( "td");　　
-  
-  console.log(  document.getElementById( "users").children[ 0].children.length);　　　//⭐️
-  
-  let inputCheck = document.createElement( "input");  
-  inputCheck.setAttribute( "type", "checkbox");
-  let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　
-  let txtName = document.createTextNode( name.value);
-  let txtAddr = document.createTextNode( addr.value);
-  let txtAge = document.createTextNode( age.value + "歳");
-  let txtMail = document.createTextNode( mail.value);                              
-  
-  let aMail = document.createElement( "a");   
-  aMail.setAttribute( "href", "mailto:");
-  
-  aMail.appendChild( txtMail); 
+  //let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　
 
-  tdCheck.appendChild( inputCheck); 
-  tdID.appendChild( txtID);      
-  tdName.appendChild( txtName);  
-  tdAddr.appendChild( txtAddr);
-  tdAge.appendChild( txtAge);
-  tdMail.appendChild( aMail);    
-  
-  //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
-  tr.appendChild( tdCheck);
-  tr.appendChild( tdID);　　　
-  tr.appendChild( tdName);
-  tr.appendChild( tdAddr);
-  tr.appendChild( tdAge);
-  tr.appendChild( tdMail);   
-  document.getElementById( "users").children[ 0].appendChild( tr);
+  const record =  {
+    "id": generateID( ),  //👉瞬間移動の仕方　コマンドキーを押しながら、ファンクション名をクリック。⌘
+    "name": name.value,
+    "addr": addr.value,
+    "age": age.value,
+    "mail": mail.value
+  };
+  data.push( record);
+  display();  　//なぜここにdisplay();の記述が必要なのか？　なぜ164行目だけではダメなのか?
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "insert").addEventListener( "click", Insert);
 
-
-function generateID( children)　　 
+/**
+ * IDを生成する
+ * @returns IDの最大値+1
+ */
+function generateID( )　　 //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
 {
   let ID = 0;
-  for( i = 0; i < children.length; i++)
+  for( const record of data)　　
   {
-    if( Number( children[i].children[ 1].textContent) != NaN)
+    if( record.id > ID)
     {
-      if( Number(  children[i].children[ 1].textContent) > ID)
-      {
-        ID = Number(  children[i].children[ 1].textContent);
-      }
+      ID = record.id;
     }
+    
     //console.log( "ID "+ children[i].children[ 0].textContent + i);
   }
   return ID + 1;
@@ -98,6 +71,7 @@ function generateID( children)　　
 //25・33行目 👉　<td><a></a></td>の要素が作成
 
 //👉 26と34行目は同義
+
 
 function Delete( event) 
 {
@@ -138,6 +112,10 @@ document.getElementById( "delete").addEventListener( "click", Delete);
  */
 function display( )
 {
+  const users = document.getElementById("users");   
+  const head = users.firstElementChild.firstElementChild;   //👉"firstElementChild"と"children[0]"は同義
+  users.firstElementChild.innerHTML = "";   //👉テーブルの子要素を全削除する
+  users.firstElementChild.appendChild( head);
   for( const record of data)　　
   {
     // console.log( record);
@@ -155,7 +133,7 @@ function display( )
     
     let inputCheck = document.createElement( "input");  
     inputCheck.setAttribute( "type", "checkbox");
-    let txtID = document.createTextNode( record.id);　　
+    let txtID = document.createTextNode( record.id);　　　//👉👉この箇所が"insert"の時と違う。
     let txtName = document.createTextNode( record.name);
     let txtAddr = document.createTextNode( record.addr);
     let txtAge = document.createTextNode( record.age + "歳");
