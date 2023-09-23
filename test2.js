@@ -75,33 +75,45 @@ function generateID( )　　 //👉コントロールキーとマイナスキー
 
 function Delete( event) 
 {
-  if( confirm( "選択されたデータを削除してもよいですか"))
+  if( confirm( "選択されたデータを削除してもよいですか") == false)
   {
-    let trs = document.getElementById( "users").children[ 0].children;
-    let checked = false;
-    for( i = 0; i < trs.length; i++)
-    {
-      if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
-      {
-        checked = true;
-        trs[ i].remove( );
-      }
-      
-    }
-    if( checked == false) 　  //👉なぜ else　と書くと成り立たないのか？
-    {
-      alert( "削除するデータを一つ以上選択して下さい");
-      //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
-      //return false;
-    }
-    // for( i = 0; i < trs.length; i++)
-    // {
-    //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
-    //   {
-    //     trs[ i].remove( );
-    //   }
-    // }
+    return;
   }
+
+  let trs = document.getElementById( "users").children[ 0].children;
+  let checked = [ ];
+  for( i = 0; i < trs.length; i++)
+  {
+    if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
+    {
+      checked.push( i - 1);
+      //data.splice( i - 1, 1);
+    }
+    
+  }
+  if( checked.length == 0) 　  //👉なぜ else　と書くと成り立たないのか？
+  {
+    alert( "削除するデータを一つ以上選択して下さい");
+    //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
+    return false;
+  }
+  // for( i = 0; i < trs.length; i++)
+  // {
+  //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
+  //   {
+  //     trs[ i].remove( );
+  //   }
+  // }
+  for( let i = data.length - 1; i >= 0; i--)
+  {
+    if( checked[ checked.length - 1] == i)
+    {
+      data.splice( i, 1);
+      checked.splice( checked.length - 1, 1);
+    }
+  }
+  display( );
+  
   event.preventDefault( );
 }
 document.getElementById( "delete").addEventListener( "click", Delete);
@@ -113,9 +125,9 @@ document.getElementById( "delete").addEventListener( "click", Delete);
 function display( )
 {
   const users = document.getElementById("users");   
-  const head = users.firstElementChild.firstElementChild;   //👉"firstElementChild"と"children[0]"は同義
-  users.firstElementChild.innerHTML = "";   //👉テーブルの子要素を全削除する
-  users.firstElementChild.appendChild( head);
+  const head = users.children[0].children[0];   //👉"firstElementChild"と"children[0]"は同義
+  users.children[0].innerHTML = "";   //👉テーブルの子要素を全削除する
+  users.children[0].appendChild( head);
   for( const record of data)　　
   {
     // console.log( record);
