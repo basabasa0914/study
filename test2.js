@@ -77,7 +77,7 @@ function Delete( event)
 {
   if( confirm( "選択されたデータを削除してもよいですか") == false)
   {
-    return;
+    return;  //👉二択の選択肢で"キャンセル"と答えると、追加(insertボタン押入)したすべてのデータが消える。
   }
 
   let trs = document.getElementById( "users").children[ 0].children;
@@ -89,13 +89,13 @@ function Delete( event)
       checked.push( i - 1);
       //data.splice( i - 1, 1);
     }
-    
   }
-  if( checked.length == 0) 　  //👉なぜ else　と書くと成り立たないのか？
+
+  if( checked == false) 　  //👉if( checked.length == 0)と同義
   {
     alert( "削除するデータを一つ以上選択して下さい");
     //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
-    return false;
+    return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
   }
   // for( i = 0; i < trs.length; i++)
   // {
@@ -104,9 +104,10 @@ function Delete( event)
   //     trs[ i].remove( );
   //   }
   // }
-  for( let i = data.length - 1; i >= 0; i--)
+
+  for( let i = data.length - 1; i >= 0; i--)  //👉i = 2 〜 0の中で回る
   {
-    if( checked[ checked.length - 1] == i)
+    if( checked[ checked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
     {
       data.splice( i, 1);
       checked.splice( checked.length - 1, 1);
@@ -141,7 +142,7 @@ function display( )
     let tdAge = document.createElement( "td");
     let tdMail = document.createElement( "td");　　
     
-    console.log(  document.getElementById( "users").children[ 0].children.length);　　　//⭐️
+    console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
     
     let inputCheck = document.createElement( "input");  
     inputCheck.setAttribute( "type", "checkbox");
