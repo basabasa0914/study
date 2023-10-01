@@ -13,6 +13,29 @@ let data = [ {
   "mail": ".@zyosuke"
 }];
 
+function CheckCheckBox( )
+{
+  let trs = document.getElementById( "users").children[ 0].children;
+  let checked = [ ];
+  for( i = 0; i < trs.length; i++)
+  {
+    if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
+    {
+      checked.push( i - 1);
+      //data.splice( i - 1, 1);
+    }
+  }
+
+  if( checked.length == 0)   //👉if( checked == false)と同義
+  {
+    alert( "削除するデータを一つ以上選択して下さい");
+    //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
+    event.preventDefault( );
+    return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
+  }
+  
+}
+
 function Insert( event)
 {
   console.log( event);  　//⭐️
@@ -77,28 +100,30 @@ function Delete( event)
 {
   if( confirm( "選択されたデータを削除してもよいですか") == false)
   {
-    return;  //👉二択の選択肢で"キャンセル"と答えると、追加(insertボタン押入)したすべてのデータが消える。
-    event.preventEvent( );
+    event.preventDefault( );
+    return;  //👉二択の選択肢で"キャンセル"と答えると、追加(insertボタン押入)したすべてのデータが消える。 
   }
+  CheckCheckBox( );
 
-  let trs = document.getElementById( "users").children[ 0].children;
-  let checked = [ ];
-  for( i = 0; i < trs.length; i++)
-  {
-    if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
-    {
-      checked.push( i - 1);
-      //data.splice( i - 1, 1);
-    }
-  }
+  // let trs = document.getElementById( "users").children[ 0].children;
+  // let checked = [ ];
+  // for( i = 0; i < trs.length; i++)
+  // {
+  //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
+  //   {
+  //     checked.push( i - 1);
+  //     //data.splice( i - 1, 1);
+  //   }
+  // }
 
-  if( checked == false) 　  //👉if( checked.length == 0)と同義
-  {
-    alert( "削除するデータを一つ以上選択して下さい");
-    //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
-    return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
-    event.preventEvent( );
-  }
+  // if( checked.length == 0)   //👉if( checked == false)と同義
+  // {
+  //   alert( "削除するデータを一つ以上選択して下さい");
+  //   //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
+  //   event.preventDefault( );
+  //   return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
+  // }
+
   // for( i = 0; i < trs.length; i++)
   // {
   //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
@@ -108,6 +133,7 @@ function Delete( event)
   // }
 
   for( let i = data.length - 1; i >= 0; i--)  //👉i = 2 〜 0の中で回る
+  //for( let i= 0; i < data.length; i++)  //👉この書き方だと、一番IDの数が大きいチェックボックスしか削除されない。(※または、チェックされた項目が１個だけの時)
   {
     if( checked[ checked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
     {
@@ -178,3 +204,41 @@ function display( )
   }
 }
 display();
+
+
+/**
+ * 更新ボタン
+ * @param {} event 
+ */
+function Update( event)
+{
+  console.log( event);  
+  const insertBtn = document.getElementById( "insert");
+
+  const deleteBtn = document.getElementById( "delete");
+
+  const searchBtn = document.getElementById( "search");
+  
+
+  if( insertBtn.disabled === false) 
+  {
+    insertBtn.disabled = true;
+    deleteBtn.disabled = true;
+    searchBtn.disabled = true;
+
+  }
+  else 
+  {
+    insertBtn.disabled = false;
+    deleteBtn.disabled = false;
+    searchBtn.disabled = false;
+
+  }
+/**
+ * チェックボックス確認処理
+ */
+  CheckCheckBox( event)
+  display();  　
+  event.preventDefault( );    //👉これは絶対必須
+}
+document.getElementById( "update").addEventListener( "click", Update);
