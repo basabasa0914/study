@@ -13,10 +13,10 @@ let data = [ {
   "mail": ".@zyosuke"
 }];
 
-function CheckCheckBox(/*a*/)  //👉👉functionに与えられた引数で、変数名を定義する事はできない。(※👉できるのは、変数に格納される値 or callback関数)
+function CheckCheckBox()  //👉👉functionに与えられた引数で、変数名を定義する事はできない。(※👉できるのは、変数に格納される値 or callback関数)
 {
   let trs = document.getElementById( "users").children[ 0].children;
- let /*a*/ checked = [ ];  //👉👉同じ名前(変数名)の箱(変数)は宣言する事ができない。
+ let checked = [ ];  //👉👉同じ名前(変数名)の箱(変数)は宣言する事ができない。
   for( i = 0; i < trs.length; i++)
   {
     if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0]./*a*/ checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
@@ -30,8 +30,8 @@ function CheckCheckBox(/*a*/)  //👉👉functionに与えられた引数で、�
   {
     alert( "削除するデータを一つ以上選択して下さい");
     //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
-    event.preventDefault( );
-    return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
+    //event.preventDefault( );
+    return checked;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
   }
   return /*a*/ checked;
 }
@@ -56,7 +56,7 @@ function Insert( event)
     "mail": mail.value
   };
   data.push( record);
-  display();  　//なぜここにdisplay();の記述が必要なのか？　なぜ164行目だけではダメなのか?
+  display();  　
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "insert").addEventListener( "click", Insert);
@@ -109,44 +109,18 @@ function Delete( event)
   if( confirm( "選択されたデータを削除してもよいですか") == false)
   {
     event.preventDefault( );
-    return;  //👉二択の選択肢で"キャンセル"と答えると、追加(insertボタン押入)したすべてのデータが消える。 
+    return;   
   }
-  let Checked = CheckCheckBox( /*checked*/);
+  let deleteChecked = CheckCheckBox( /*checked*/);
 
-  // let trs = document.getElementById( "users").children[ 0].children;
-  // let checked = [ ];
-  // for( i = 0; i < trs.length; i++)
-  // {
-  //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
-  //   {
-  //     checked.push( i - 1);
-  //     //data.splice( i - 1, 1);
-  //   }
-  // }
-
-  // if( checked.length == 0)   //👉if( checked == false)と同義
-  // {
-  //   alert( "削除するデータを一つ以上選択して下さい");
-  //   //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
-  //   event.preventDefault( );
-  //   return false;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
-  // }
-
-  // for( i = 0; i < trs.length; i++)
-  // {
-  //   if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true)
-  //   {
-  //     trs[ i].remove( );
-  //   }
-  // }
 
   for( let i = data.length - 1; i >= 0; i--)  //👉i = 2 〜 0の中で回る
   //for( let i= 0; i < data.length; i++)  //👉この書き方だと、一番IDの数が大きいチェックボックスしか削除されない。(※または、チェックされた項目が１個だけの時)
   {
-    if( Checked[ Checked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
+    if( deleteChecked[ deleteChecked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
     {
       data.splice( i, 1);
-      Checked.splice( Checked.length - 1, 1);
+      deleteChecked.splice( deleteChecked.length - 1, 1);
     }
   }
   display( );
