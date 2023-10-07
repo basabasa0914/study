@@ -21,7 +21,7 @@ function CheckCheckBox(/*a*/)  //👉👉functionに与えられた引数で、�
   {
     if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0]./*a*/ checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
     {
-     /* a*/ checked.push( i - 1);
+     /*a*/ checked.push( i - 1);
       //data.splice( i - 1, 1);
     }
   }
@@ -65,36 +65,44 @@ document.getElementById( "insert").addEventListener( "click", Insert);
  * IDを生成する
  * @returns IDの最大値+1
  */
-function generateID( )　　 //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
+function generateID( )   //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
 {
   let ID = 0;
-  for( const record of data)　　
+  let trs = document.getElementById( "users").children[ 0].children;
+  for( i = 0; i < trs.length; i++) 
+  {
+    //if ( Number( trs[i].children[ 1].textContent) != NaN)
+    //{
+      if ( Number (trs[i].children[ 1].textContent) > ID) 
+      {
+        ID = Number (trs[ i].children[ 1].textContent);
+      }
+    //}
+  }
+  return ID + 1;
+}
+
+/*{
+  let ID = 0;
+  for( const record of data)
   {
     if( record.id > ID)
     {
       ID = record.id;
-    }
-    
-    //console.log( "ID "+ children[i].children[ 0].textContent + i);
+    }   
   }
   return ID + 1;
-}
+}*/
+
   
+/*👉👉 //trs[i]の[i]の中には "0"が代入されている。
+ (trs[i].children[ 0].textContent) で table border要素内 👉 [ ID 名前	住所	年齢	メール ] の "ID"という文字列を取得
+取得した"ID"という文字列に対して、Number( )コンストラクタを用いたが数値に変える事はできず、"NaN"となる。
+結果、IDの値は"0"となり return "0" + 1;となる。*/
 
-/*53行目の (children[i].children[ 0].textContent) で table border要素内 👉 [ ID 名前	住所	年齢	メール ] の "ID"という文字列を取得
+//👉👉 69行目から83行目は、85行目から95行目と同義。
 
-  取得した"ID"という文字列に対して、Number( )コンストラクタを用いたが数値に変える事はできず、"NaN"となる。
-
-  ※children[i]の[i]の中には "0"が代入されている。
   
-  結果、IDの値は"0"となり return "0" + 1;となる。
-  
-  5行目から42行目までの工程が全部なされなければ、 「.children」は「document.getElementById( "users")」の子要素としては見なされて無い。*/
-
-//25・33行目 👉　<td><a></a></td>の要素が作成
-
-//👉 26と34行目は同義
-
 
 function Delete( event) 
 {
@@ -103,7 +111,7 @@ function Delete( event)
     event.preventDefault( );
     return;  //👉二択の選択肢で"キャンセル"と答えると、追加(insertボタン押入)したすべてのデータが消える。 
   }
-  let Check = CheckCheckBox( /*checked*/);
+  let Checked = CheckCheckBox( /*checked*/);
 
   // let trs = document.getElementById( "users").children[ 0].children;
   // let checked = [ ];
@@ -135,10 +143,10 @@ function Delete( event)
   for( let i = data.length - 1; i >= 0; i--)  //👉i = 2 〜 0の中で回る
   //for( let i= 0; i < data.length; i++)  //👉この書き方だと、一番IDの数が大きいチェックボックスしか削除されない。(※または、チェックされた項目が１個だけの時)
   {
-    if( Check[ Check.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
+    if( Checked[ Checked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
     {
       data.splice( i, 1);
-      Check.splice( Check.length - 1, 1);
+      Checked.splice( Checked.length - 1, 1);
     }
   }
   display( );
@@ -157,18 +165,18 @@ function display( )
   const head = users.children[0].children[0];   //👉"firstElementChild"と"children[0]"は同義
   users.children[0].innerHTML = "";   //👉テーブルの子要素を全削除する
   users.children[0].appendChild( head);
-  for( const record of data)　　
+  for( const record of data)
   {
     // console.log( record);
     // console.log( record.name);
-    let tr = document.createElement( "tr");　　    
+    let tr = document.createElement( "tr");    
   
     let tdCheck = document.createElement( "td");
     let tdID = document.createElement( "td");
     let tdName = document.createElement( "td");
     let tdAddr = document.createElement( "td");
     let tdAge = document.createElement( "td");
-    let tdMail = document.createElement( "td");　　
+    let tdMail = document.createElement( "td");
     
     console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
     
@@ -194,7 +202,7 @@ function display( )
     
     //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
     tr.appendChild( tdCheck);
-    tr.appendChild( tdID);　　　
+    tr.appendChild( tdID);
     tr.appendChild( tdName);
     tr.appendChild( tdAddr);
     tr.appendChild( tdAge);
@@ -237,8 +245,8 @@ function Update( event)
 /**
  * チェックボックス確認処理
  */
-  //CheckCheckBox( event)
-  display();  　
+  CheckCheckBox( );
+  display( ); 
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "update").addEventListener( "click", Update);
