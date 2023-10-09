@@ -28,7 +28,7 @@ function CheckCheckBox()  //👉👉functionに与えられた引数で、変数
 
   if(  /*a*/checked.length == 0)   //👉if( checked == false)と同義
   {
-    alert( "削除するデータを一つ以上選択して下さい");
+    alert( "データを一つ以上選択して下さい");
     //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
     //event.preventDefault( );
     return checked;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
@@ -133,7 +133,7 @@ document.getElementById( "delete").addEventListener( "click", Delete);
 /**
  * データの表示
  */
-function display( )
+function display( checked = [ ])
 {
   const users = document.getElementById("users");   
   const head = users.children[0].children[0];   //👉"firstElementChild"と"children[0]"は同義
@@ -152,7 +152,51 @@ function display( )
     let tdAge = document.createElement( "td");
     let tdMail = document.createElement( "td");
     
-    console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
+    //console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
+
+    console.log( checked);
+
+    if( checked[ checked.length -1] == record.id - 1) 
+    {
+      let inputText = document.createElement( "input");
+      inputText.setAttribute( "type", "text");
+
+      let inputID = document.createElement( "input");
+      inputID.setAttribute( "type", "text");
+
+      let inputName = document.createElement( "input");
+      inputName.setAttribute( "type", "text");
+
+      let inputAddr = document.createElement( "input");
+      inputAddr.setAttribute( "type", "text");
+
+      let inputAge = document.createElement( "input");
+      inputAge.setAttribute( "type", "text");
+
+      let inputMail = document.createElement( "input");
+      inputMail.setAttribute( "type", "text");
+
+      let aMail = document.createElement( "a");
+      aMail.setAttribute( "href", "mailto:");
+
+      tdCheck.appendChild( inputText);
+      tdID.appendChild( inputID);
+      tdName.appendChild( inputName);  
+      tdAddr.appendChild( inputAddr);
+      tdAge.appendChild( inputAge);
+      aMail.appendChild( inputMail);
+      tdMail.appendChild( aMail); 
+      
+      tr.appendChild( tdCheck);
+      tr.appendChild( tdID);
+      tr.appendChild( tdName);
+      tr.appendChild( tdAddr);
+      tr.appendChild( tdAge);
+      tr.appendChild( tdMail);
+
+      document.getElementById( "users").children[ 0].appendChild( tr);
+    }
+    
     
     let inputCheck = document.createElement( "input");  
     inputCheck.setAttribute( "type", "checkbox");
@@ -182,12 +226,11 @@ function display( )
     tr.appendChild( tdAge);
     tr.appendChild( tdMail);   
     document.getElementById( "users").children[ 0].appendChild( tr);
+    
   
   }
 }
-display();
-
-
+  display(); 
 /**
  * 更新ボタン
  * @param {} event 
@@ -216,11 +259,11 @@ function Update( event)
     searchBtn.disabled = false;
 
   }
-/**
- * チェックボックス確認処理
- */
-  CheckCheckBox( );
-  display( ); 
+
+ //チェックボックス確認処理
+
+ let updateChecked = CheckCheckBox( );
+  display( updateChecked); 
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "update").addEventListener( "click", Update);
