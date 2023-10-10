@@ -158,12 +158,11 @@ function display( checked = [ ])
 
     if( checked[ checked.length -1] == record.id - 1) 
     {
-      let inputText = document.createElement( "input");
-      inputText.setAttribute( "type", "text");
+      let inputCheck = document.createElement( "input");
+      inputCheck.setAttribute( "type", "checkbox");
 
-      let inputID = document.createElement( "input");
-      inputID.setAttribute( "type", "text");
-
+      let txtID = document.createTextNode( record.id);
+     
       let inputName = document.createElement( "input");
       inputName.setAttribute( "type", "text");
 
@@ -179,8 +178,8 @@ function display( checked = [ ])
       let aMail = document.createElement( "a");
       aMail.setAttribute( "href", "mailto:");
 
-      tdCheck.appendChild( inputText);
-      tdID.appendChild( inputID);
+      tdCheck.appendChild( inputCheck);
+      tdID.appendChild( txtID);
       tdName.appendChild( inputName);  
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
@@ -195,9 +194,10 @@ function display( checked = [ ])
       tr.appendChild( tdMail);
 
       document.getElementById( "users").children[ 0].appendChild( tr);
+      
     }
     
-    
+    else {
     let inputCheck = document.createElement( "input");  
     inputCheck.setAttribute( "type", "checkbox");
     let txtID = document.createTextNode( record.id);　　　//👉👉この箇所が"insert"の時と違う。
@@ -226,7 +226,7 @@ function display( checked = [ ])
     tr.appendChild( tdAge);
     tr.appendChild( tdMail);   
     document.getElementById( "users").children[ 0].appendChild( tr);
-    
+    }
   
   }
 }
