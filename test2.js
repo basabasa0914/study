@@ -156,13 +156,20 @@ function display( checked = [ ])
 
     console.log( checked);
 
+    let inputCheck = document.createElement( "input");
+    inputCheck.setAttribute( "type", "checkbox");
+
+    let txtID = document.createTextNode( record.id);   
+
+    tdCheck.appendChild( inputCheck); 
+    tdID.appendChild( txtID);
+
+    tr.appendChild( tdCheck);
+    tr.appendChild( tdID);
+
     if( checked[ checked.length -1] == record.id - 1) 
     {
-      let inputCheck = document.createElement( "input");
-      inputCheck.setAttribute( "type", "checkbox");
-
-      let txtID = document.createTextNode( record.id);
-     
+      
       let inputName = document.createElement( "input");
       inputName.setAttribute( "type", "text");
 
@@ -170,37 +177,34 @@ function display( checked = [ ])
       inputAddr.setAttribute( "type", "text");
 
       let inputAge = document.createElement( "input");
-      inputAge.setAttribute( "type", "text");
+      inputAge.setAttribute( "type", "number");
+      inputAge.max = "150";
+      inputAge.min = "0";
 
       let inputMail = document.createElement( "input");
-      inputMail.setAttribute( "type", "text");
+      inputMail.setAttribute( "type", "email");
 
       let aMail = document.createElement( "a");
       aMail.setAttribute( "href", "mailto:");
 
-      tdCheck.appendChild( inputCheck);
-      tdID.appendChild( txtID);
+      aMail.appendChild( inputMail); 
+
       tdName.appendChild( inputName);  
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
-      aMail.appendChild( inputMail);
       tdMail.appendChild( aMail); 
       
-      tr.appendChild( tdCheck);
-      tr.appendChild( tdID);
       tr.appendChild( tdName);
       tr.appendChild( tdAddr);
       tr.appendChild( tdAge);
       tr.appendChild( tdMail);
 
-      document.getElementById( "users").children[ 0].appendChild( tr);
+      document.getElementById( "users").children[ 0].appendChild( tr);   //⭐️
       
     }
     
     else {
-    let inputCheck = document.createElement( "input");  
-    inputCheck.setAttribute( "type", "checkbox");
-    let txtID = document.createTextNode( record.id);　　　//👉👉この箇所が"insert"の時と違う。
+
     let txtName = document.createTextNode( record.name);
     let txtAddr = document.createTextNode( record.addr);
     let txtAge = document.createTextNode( record.age + "歳");
@@ -211,21 +215,17 @@ function display( checked = [ ])
     
     aMail.appendChild( txtMail); 
   
-    tdCheck.appendChild( inputCheck); 
-    tdID.appendChild( txtID);      
     tdName.appendChild( txtName);  
     tdAddr.appendChild( txtAddr);
     tdAge.appendChild( txtAge);
     tdMail.appendChild( aMail);    
     
     //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
-    tr.appendChild( tdCheck);
-    tr.appendChild( tdID);
     tr.appendChild( tdName);
     tr.appendChild( tdAddr);
     tr.appendChild( tdAge);
     tr.appendChild( tdMail);   
-    document.getElementById( "users").children[ 0].appendChild( tr);
+    document.getElementById( "users").children[ 0].appendChild( tr);  //⭐️
     }
   
   }
