@@ -13,33 +13,32 @@ let data = [ {
   "mail": ".@zyosuke"
 }];
 
+let updateMode = false;
+
 function CheckCheckBox()  //👉👉functionに与えられた引数で、変数名を定義する事はできない。(※👉できるのは、変数に格納される値 or callback関数)
 {
   let trs = document.getElementById( "users").children[ 0].children;
- let checked = [ ];  //👉👉同じ名前(変数名)の箱(変数)は宣言する事ができない。
+  let checked = [ ];  //👉👉同じ名前(変数名)の箱(変数)は宣言する事ができない。
   for( i = 0; i < trs.length; i++)
   {
-    if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0]./*a*/ checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
+    if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0].checked == true) 
     {
       checked.push( i - 1);
-      //data.splice( i - 1, 1);
     }
-  }
+  } 
 
-  if(  /*a*/checked.length == 0)   //👉if( checked == false)と同義
+  if( checked.length == 0)   //👉if( checked == false)と同義
   {
     alert( "データを一つ以上選択して下さい");
-    //event.preventDefault( ); // 96行目を挿入しなかった場合、[ insertボタン]で入力された内容(<tr></tr>で作成された行の内容)まで消えてしまうのはなぜ？
     //event.preventDefault( );
-    return checked;　　//👉この行があることで、追加(insertボタン押入)したすべてのデータが消える。
+    return checked;
   }
-  return /*a*/ checked;
+  return checked;
 }
 
 function Insert( event)
 {
-  console.log( event);  　//⭐️
- 
+  console.log( event);  
 
   let name = document.getElementById( "name");  
   let addr = document.getElementById( "addr");
@@ -49,7 +48,7 @@ function Insert( event)
   //let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　
 
   const record =  {
-    "id": generateID( ),  //👉瞬間移動の仕方　コマンドキーを押しながら、ファンクション名をクリック。⌘
+    "id": generateID( ),  
     "name": name.value,
     "addr": addr.value,
     "age": age.value,
@@ -66,22 +65,6 @@ document.getElementById( "insert").addEventListener( "click", Insert);
  * @returns IDの最大値+1
  */
 function generateID( )   //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
-// {
-//   let ID = 0;
-//   let trs = document.getElementById( "users").children[ 0].children;
-//   for( i = 0; i < trs.length; i++) 
-//   {
-//     //if ( Number( trs[i].children[ 1].textContent) != NaN)
-//     //{
-//       if ( Number (trs[i].children[ 1].textContent) > ID) 
-//       {
-//         ID = Number (trs[ i].children[ 1].textContent);
-//       }
-//     //}
-//   }
-//   return ID + 1;
-// }
-
 {
   let ID = 0;
   for( const record of data)
@@ -93,8 +76,7 @@ function generateID( )   //👉コントロールキーとマイナスキーを�
   }
   return ID + 1;
 }
-
-  
+ 
 /*👉👉 //trs[i]の[i]の中には "0"が代入されている。
  (trs[i].children[ 0].textContent) で table border要素内 👉 [ ID 名前	住所	年齢	メール ] の "ID"という文字列を取得
 取得した"ID"という文字列に対して、Number( )コンストラクタを用いたが数値に変える事はできず、"NaN"となる。
@@ -111,13 +93,12 @@ function Delete( event)
     event.preventDefault( );
     return;   
   }
-  let deleteChecked = CheckCheckBox( /*checked*/);
+  let deleteChecked = CheckCheckBox( );
 
-
-  for( let i = data.length - 1; i >= 0; i--)  //👉i = 2 〜 0の中で回る
+  for( let i = data.length - 1; i >= 0; i--)  
   //for( let i= 0; i < data.length; i++)  //👉この書き方だと、一番IDの数が大きいチェックボックスしか削除されない。(※または、チェックされた項目が１個だけの時)
   {
-    if( deleteChecked[ deleteChecked.length - 1] == i)  //👉checked.length ⏩ 3 の場合は( 0,1,2)が入る可能性あり,checked[ 0]はchecked[ ]の配列の1番目に入っている値。
+    if( deleteChecked[ deleteChecked.length - 1] == i)  
     {
       data.splice( i, 1);
       deleteChecked.splice( deleteChecked.length - 1, 1);
@@ -139,6 +120,7 @@ function display( checked = [ ])
   const head = users.children[0].children[0];   //👉"firstElementChild"と"children[0]"は同義
   users.children[0].innerHTML = "";   //👉テーブルの子要素を全削除する
   users.children[0].appendChild( head);
+  
   for( const record of data)
   {
     // console.log( record);
@@ -152,7 +134,7 @@ function display( checked = [ ])
     let tdAge = document.createElement( "td");
     let tdMail = document.createElement( "td");
     
-    //console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
+    //console.log(  document.getElementById( "users").children[ 0].children.length);　//　この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
 
     console.log( checked);     //⭐️
 
@@ -206,6 +188,7 @@ function display( checked = [ ])
       tdName.appendChild( inputName);  
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
+      tdAge.appendChild( document.createTextNode( "歳"));   //⭐️⭐️
       tdMail.appendChild( aMail); 
       
       
@@ -232,7 +215,7 @@ function display( checked = [ ])
     tr.appendChild( tdAddr);
     tr.appendChild( tdAge);
     tr.appendChild( tdMail);   
-    document.getElementById( "users").children[ 0].appendChild( tr);  //⭐️
+    document.getElementById( "users").children[ 0].appendChild( tr);  
   }
 }
   display(); 
@@ -243,30 +226,69 @@ function display( checked = [ ])
 function Update( event)
 {
   console.log( event);  
+
+  const name = document.getElementById( "name");  
+  const addr = document.getElementById( "addr");
+  const age = document.getElementById( "age");
+  const mail = document.getElementById( "mail"); 
+
   const insertBtn = document.getElementById( "insert");
-
   const deleteBtn = document.getElementById( "delete");
-
   const searchBtn = document.getElementById( "search");
-  
-  let updateChecked = CheckCheckBox( );
-  if( updateChecked.length === 0)
+
+  let updateCheckeds = CheckCheckBox( );
+
+  if( updateCheckeds.length === 0)
   {
     event.preventDefault( );
     return;
   }
-  if( insertBtn.disabled === false) 
+
+  if( updateMode === false) 
   {
+    updateMode = true;
+
+    name.value = null;
+    addr.value = null;
+    age.value = null;
+    mail.value = null;
+
+    name.disabled = true;
+    addr.disabled = true;
+    age.disabled = true;
+    mail.disabled = true;
+
     insertBtn.disabled = true;
     deleteBtn.disabled = true;
     searchBtn.disabled = true;
-    display( updateChecked);
+
+    display( updateCheckeds);
   }
+
   else 
   {
+    if( confirm( "選択されたデータを更新してもよいですか") == false)
+    {
+      event.preventDefault( );
+      return;   
+    }
+
+    for(  updateChecked of updateCheckeds)  //わからん
+    {
+     console.log( updateChecked); 
+    }
+
+    updateMode = false;
+
+    name.disabled = false;
+    addr.disabled = false;
+    age.disabled = false;
+    mail.disabled = false;
+
     insertBtn.disabled = false;
     deleteBtn.disabled = false;
     searchBtn.disabled = false;
+
     display( );
   }
 
