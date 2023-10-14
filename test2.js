@@ -21,7 +21,7 @@ function CheckCheckBox()  //👉👉functionに与えられた引数で、変数
   {
     if( trs[i].children[ 0].children.length > 0 && trs[i].children[ 0].children[ 0]./*a*/ checked == true)  //　[後者の条件の方] なぜ二個目もchiliren[ 0]になるの？
     {
-     /*a*/ checked.push( i - 1);
+      checked.push( i - 1);
       //data.splice( i - 1, 1);
     }
   }
@@ -66,23 +66,23 @@ document.getElementById( "insert").addEventListener( "click", Insert);
  * @returns IDの最大値+1
  */
 function generateID( )   //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
-{
-  let ID = 0;
-  let trs = document.getElementById( "users").children[ 0].children;
-  for( i = 0; i < trs.length; i++) 
-  {
-    //if ( Number( trs[i].children[ 1].textContent) != NaN)
-    //{
-      if ( Number (trs[i].children[ 1].textContent) > ID) 
-      {
-        ID = Number (trs[ i].children[ 1].textContent);
-      }
-    //}
-  }
-  return ID + 1;
-}
+// {
+//   let ID = 0;
+//   let trs = document.getElementById( "users").children[ 0].children;
+//   for( i = 0; i < trs.length; i++) 
+//   {
+//     //if ( Number( trs[i].children[ 1].textContent) != NaN)
+//     //{
+//       if ( Number (trs[i].children[ 1].textContent) > ID) 
+//       {
+//         ID = Number (trs[ i].children[ 1].textContent);
+//       }
+//     //}
+//   }
+//   return ID + 1;
+// }
 
-/*{
+{
   let ID = 0;
   for( const record of data)
   {
@@ -92,7 +92,7 @@ function generateID( )   //👉コントロールキーとマイナスキーを�
     }   
   }
   return ID + 1;
-}*/
+}
 
   
 /*👉👉 //trs[i]の[i]の中には "0"が代入されている。
@@ -154,10 +154,19 @@ function display( checked = [ ])
     
     //console.log(  document.getElementById( "users").children[ 0].children.length);　//　⭐️この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
 
-    console.log( checked);
+    console.log( checked);     //⭐️
 
     let inputCheck = document.createElement( "input");
     inputCheck.setAttribute( "type", "checkbox");
+    /*if( checked.length > 0)
+    {
+      inputCheck.disabled = true;
+    }*/
+    
+    /*
+      更新モード開始の場合は、inputCheckを無効。 更新モード開始ではない場合は、inputCheckを有効化する。
+    */
+    inputCheck.disabled = checked.length > 0;  // = よりも > の方が演算の優先度が高い　⭐️
 
     let txtID = document.createTextNode( record.id);   
 
@@ -167,22 +176,27 @@ function display( checked = [ ])
     tr.appendChild( tdCheck);
     tr.appendChild( tdID);
 
-    if( checked[ checked.length -1] == record.id - 1) 
+    if( checked[ checked.length -1] == record.id - 1)    //⭐️
     {
-      
+      inputCheck.checked = true;
+     
       let inputName = document.createElement( "input");
       inputName.setAttribute( "type", "text");
+      inputName.value = record.name;
 
       let inputAddr = document.createElement( "input");
       inputAddr.setAttribute( "type", "text");
+      inputAddr.value = record.addr;
 
       let inputAge = document.createElement( "input");
       inputAge.setAttribute( "type", "number");
-      inputAge.max = "150";
-      inputAge.min = "0";
+      inputAge.max = 150;
+      inputAge.min = 0;
+      inputAge.value = record.age;
 
       let inputMail = document.createElement( "input");
       inputMail.setAttribute( "type", "email");
+      inputMail.value = record.mail;
 
       let aMail = document.createElement( "a");
       aMail.setAttribute( "href", "mailto:");
@@ -194,40 +208,31 @@ function display( checked = [ ])
       tdAge.appendChild( inputAge);
       tdMail.appendChild( aMail); 
       
-      tr.appendChild( tdName);
-      tr.appendChild( tdAddr);
-      tr.appendChild( tdAge);
-      tr.appendChild( tdMail);
-
-      document.getElementById( "users").children[ 0].appendChild( tr);   //⭐️
       
+    }     //⭐️
+    
+    else 
+    {
+      let txtName = document.createTextNode( record.name);
+      let txtAddr = document.createTextNode( record.addr);
+      let txtAge = document.createTextNode( record.age + "歳");
+      let txtMail = document.createTextNode( record.mail);                              
+      
+      let aMail = document.createElement( "a");   
+      aMail.setAttribute( "href", "mailto:");
+      
+      aMail.appendChild( txtMail); 
+    
+      tdName.appendChild( txtName);  
+      tdAddr.appendChild( txtAddr);
+      tdAge.appendChild( txtAge);
+      tdMail.appendChild( aMail);    
     }
-    
-    else {
-
-    let txtName = document.createTextNode( record.name);
-    let txtAddr = document.createTextNode( record.addr);
-    let txtAge = document.createTextNode( record.age + "歳");
-    let txtMail = document.createTextNode( record.mail);                              
-    
-    let aMail = document.createElement( "a");   
-    aMail.setAttribute( "href", "mailto:");
-    
-    aMail.appendChild( txtMail); 
-  
-    tdName.appendChild( txtName);  
-    tdAddr.appendChild( txtAddr);
-    tdAge.appendChild( txtAge);
-    tdMail.appendChild( aMail);    
-    
-    //aMail.setAttribute( "href", "mailto:" + event.target.mail.value);
     tr.appendChild( tdName);
     tr.appendChild( tdAddr);
     tr.appendChild( tdAge);
     tr.appendChild( tdMail);   
     document.getElementById( "users").children[ 0].appendChild( tr);  //⭐️
-    }
-  
   }
 }
   display(); 
@@ -244,26 +249,29 @@ function Update( event)
 
   const searchBtn = document.getElementById( "search");
   
-
+  let updateChecked = CheckCheckBox( );
+  if( updateChecked.length === 0)
+  {
+    event.preventDefault( );
+    return;
+  }
   if( insertBtn.disabled === false) 
   {
     insertBtn.disabled = true;
     deleteBtn.disabled = true;
     searchBtn.disabled = true;
-
+    display( updateChecked);
   }
   else 
   {
     insertBtn.disabled = false;
     deleteBtn.disabled = false;
     searchBtn.disabled = false;
-
+    display( );
   }
 
  //チェックボックス確認処理
 
- let updateChecked = CheckCheckBox( );
-  display( updateChecked); 
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "update").addEventListener( "click", Update);
