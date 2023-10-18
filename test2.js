@@ -189,9 +189,7 @@ function display( checked = [ ])
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
       tdAge.appendChild( document.createTextNode( "歳"));   //⭐️⭐️
-      tdMail.appendChild( aMail); 
-      
-      
+      tdMail.appendChild( aMail);    
     }     //⭐️
     
     else 
@@ -273,7 +271,7 @@ function Update( event)
       return;   
     }
 
-    for(  updateChecked of updateCheckeds)  //わからん
+    for( let updateChecked of updateCheckeds)  //わからん
     {
      console.log( updateChecked); 
     }
