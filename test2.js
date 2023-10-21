@@ -158,27 +158,30 @@ function display( checked = [ ])
     tr.appendChild( tdCheck);
     tr.appendChild( tdID);
 
-    if( checked[ checked.length -1] == record.id - 1)    //⭐️
+     /*includesメソッドの使用(理由)👉 "if(checked[checked.length -1] == record.id)"という書き方(＝前回の書き方)をすると、
+       配列における、インデックス番号の最大値に対応する"value値"を常に取り出してくる事になる為*/
+    
+       if(checked.includes(record.id -1,0) == true) //⭐️ 
     {
       inputCheck.checked = true;
      
       let inputName = document.createElement( "input");
       inputName.setAttribute( "type", "text");
-      inputName.value = record.name;
+      inputName.value = record.name;  //👀
 
       let inputAddr = document.createElement( "input");
       inputAddr.setAttribute( "type", "text");
-      inputAddr.value = record.addr;
+      inputAddr.value = record.addr;  //👀
 
       let inputAge = document.createElement( "input");
       inputAge.setAttribute( "type", "number");
       inputAge.max = 150;
       inputAge.min = 0;
-      inputAge.value = record.age;
+      inputAge.value = record.age;  //👀
 
       let inputMail = document.createElement( "input");
       inputMail.setAttribute( "type", "email");
-      inputMail.value = record.mail;
+      inputMail.value = record.mail;  //👀
 
       let aMail = document.createElement( "a");
       aMail.setAttribute( "href", "mailto:");
@@ -188,7 +191,7 @@ function display( checked = [ ])
       tdName.appendChild( inputName);  
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
-      tdAge.appendChild( document.createTextNode( "歳"));   //⭐️⭐️
+      tdAge.appendChild( document.createTextNode( "歳"));   //👀
       tdMail.appendChild( aMail);    
     }     //⭐️
     
@@ -225,7 +228,7 @@ function Update( event)
 {
   console.log( event);  
 
-  const name = document.getElementById( "name");  
+  const name = document.getElementById( "name");     //👉定義部分 始
   const addr = document.getElementById( "addr");
   const age = document.getElementById( "age");
   const mail = document.getElementById( "mail"); 
@@ -234,7 +237,7 @@ function Update( event)
   const deleteBtn = document.getElementById( "delete");
   const searchBtn = document.getElementById( "search");
 
-  let updateCheckeds = CheckCheckBox( );
+  let updateCheckeds = CheckCheckBox( );     //👉定義部分 終
 
   if( updateCheckeds.length === 0)
   {
@@ -271,7 +274,7 @@ function Update( event)
       return;   
     }
 
-    for( let updateChecked of updateCheckeds)  //わからん
+    for( let updateChecked of updateCheckeds)  
     {
      console.log( updateChecked); 
     }
