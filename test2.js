@@ -45,8 +45,6 @@ function Insert( event)
   let age = document.getElementById( "age");
   let mail = document.getElementById( "mail");   
   
-  //let txtID = document.createTextNode( generateID( document.getElementById( "users").children[ 0].children));　　
-
   const record =  {
     "id": generateID( ),  
     "name": name.value,
@@ -55,7 +53,7 @@ function Insert( event)
     "mail": mail.value
   };
   data.push( record);
-  display();  　
+  display(); 
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "insert").addEventListener( "click", Insert);
@@ -64,7 +62,7 @@ document.getElementById( "insert").addEventListener( "click", Insert);
  * IDを生成する
  * @returns IDの最大値+1
  */
-function generateID( )   //👉コントロールキーとマイナスキーを押す（前の位置に戻る）
+function generateID( )   
 {
   let ID = 0;
   for( const record of data)
@@ -82,9 +80,6 @@ function generateID( )   //👉コントロールキーとマイナスキーを�
 取得した"ID"という文字列に対して、Number( )コンストラクタを用いたが数値に変える事はできず、"NaN"となる。
 結果、IDの値は"0"となり return "0" + 1;となる。*/
 
-//👉👉 69行目から83行目は、85行目から95行目と同義。
-
-  
 
 function Delete( event) 
 {
@@ -114,17 +109,15 @@ document.getElementById( "delete").addEventListener( "click", Delete);
 /**
  * データの表示
  */
-function display( checked = [ ])
+function display( checked = [ ], hits = [ ])
 {
   const users = document.getElementById("users");   
-  const head = users.children[0].children[0];   //👉"firstElementChild"と"children[0]"は同義
+  const head = users.children[0].children[0];   
   users.children[0].innerHTML = "";   //👉テーブルの子要素を全削除する
   users.children[0].appendChild( head);
   
   for( const record of data)
   {
-    // console.log( record);
-    // console.log( record.name);
     let tr = document.createElement( "tr");    
   
     let tdCheck = document.createElement( "td");
@@ -134,9 +127,7 @@ function display( checked = [ ])
     let tdAge = document.createElement( "td");
     let tdMail = document.createElement( "td");
     
-    //console.log(  document.getElementById( "users").children[ 0].children.length);　//　この部分は、前回"'click'event"発動分までの,<tr>列の総合計数を表記している。
-
-    console.log( checked);     //⭐️
+    console.log( checked);     
 
     let inputCheck = document.createElement( "input");
     inputCheck.setAttribute( "type", "checkbox");
@@ -161,41 +152,41 @@ function display( checked = [ ])
      /*includesメソッドの使用(理由)👉 "if(checked[checked.length -1] == record.id)"という書き方(＝前回の書き方)をすると、
        配列における、インデックス番号の最大値に対応する"value値"を常に取り出してくる事になる為*/
     
-       if(checked.includes(record.id -1,0) == true) //⭐️ 
+    if(checked.includes(record.id -1,0) == true) //⭐️ 
     {
       inputCheck.checked = true;
      
       let inputName = document.createElement( "input");
+      inputName.setAttribute( "id", "name" + ( record.id - 1)); 
       inputName.setAttribute( "type", "text");
       inputName.value = record.name;  //👀
 
       let inputAddr = document.createElement( "input");
+      inputAddr.setAttribute( "id", "addr" + ( record.id - 1));
       inputAddr.setAttribute( "type", "text");
       inputAddr.value = record.addr;  //👀
 
       let inputAge = document.createElement( "input");
+      inputAge.setAttribute( "id", "age" + ( record.id - 1));
       inputAge.setAttribute( "type", "number");
       inputAge.max = 150;
       inputAge.min = 0;
       inputAge.value = record.age;  //👀
 
       let inputMail = document.createElement( "input");
+      inputMail.setAttribute( "id", "mail" + ( record.id - 1));
       inputMail.setAttribute( "type", "email");
       inputMail.value = record.mail;  //👀
-
-      let aMail = document.createElement( "a");
-      aMail.setAttribute( "href", "mailto:");
-
-      aMail.appendChild( inputMail); 
 
       tdName.appendChild( inputName);  
       tdAddr.appendChild( inputAddr);
       tdAge.appendChild( inputAge);
       tdAge.appendChild( document.createTextNode( "歳"));   //👀
-      tdMail.appendChild( aMail);    
+      tdMail.appendChild( inputMail);  //👉前回から変更された箇所  
     }     //⭐️
-    
-    else 
+     
+
+    else if(checked.includes(record.id -1,0) == false || hits == [ ] || hits.includes( record.id))
     {
       let txtName = document.createTextNode( record.name);
       let txtAddr = document.createTextNode( record.addr);
@@ -212,6 +203,7 @@ function display( checked = [ ])
       tdAge.appendChild( txtAge);
       tdMail.appendChild( aMail);    
     }
+    
     tr.appendChild( tdName);
     tr.appendChild( tdAddr);
     tr.appendChild( tdAge);
@@ -220,6 +212,8 @@ function display( checked = [ ])
   }
 }
   display(); 
+
+
 /**
  * 更新ボタン
  * @param {} event 
@@ -237,13 +231,13 @@ function Update( event)
   const deleteBtn = document.getElementById( "delete");
   const searchBtn = document.getElementById( "search");
 
-  let updateCheckeds = CheckCheckBox( );     //👉定義部分 終
+  let updateCheckeds = CheckCheckBox( );     //👉定義部分 終   　❌再復習が必要
 
-  if( updateCheckeds.length === 0)
+  if( updateCheckeds.length === 0)    //❌再復習が必要
   {
     event.preventDefault( );
     return;
-  }
+  }                                   //❌再復習が必要
 
   if( updateMode === false) 
   {
@@ -266,7 +260,7 @@ function Update( event)
     display( updateCheckeds);
   }
 
-  else 
+  else           //❌再復習が必要
   {
     if( confirm( "選択されたデータを更新してもよいですか") == false)
     {
@@ -276,7 +270,13 @@ function Update( event)
 
     for( let updateChecked of updateCheckeds)  
     {
-     console.log( updateChecked); 
+     data[ updateChecked].name = document.getElementById( "name" + updateChecked).value;
+
+     data[ updateChecked].addr = document.getElementById( "addr" + updateChecked).value;
+
+     data[ updateChecked].age = document.getElementById( "age" + updateChecked).value;
+
+     data[ updateChecked].mail = document.getElementById( "mail" + updateChecked).value;
     }
 
     updateMode = false;
@@ -291,10 +291,51 @@ function Update( event)
     searchBtn.disabled = false;
 
     display( );
-  }
-
- //チェックボックス確認処理
+  }              //❌再復習が必要
 
   event.preventDefault( );    //👉これは絶対必須
 }
 document.getElementById( "update").addEventListener( "click", Update);
+
+
+/**
+ * 検索ボタン
+ * @param {} event 
+ */
+function Search( event)
+{
+  const name = document.getElementById( "name").value;     //👉定義部分　始
+  const addr = document.getElementById( "addr").value;
+  const age = document.getElementById( "age").value;
+  const mail = document.getElementById( "mail").value; 
+                                                           
+  hits = [ ];                                              //👉定義部分　終                                     
+
+  for( const record of data)
+  {
+    if( name != "" && record.name.includes( name))
+    {
+      hits.push( record.id);
+      continue;
+    }
+
+    if( addr != "" && record.addr.includes( addr))
+    {
+      hits.push( record.id);
+      continue;
+    }
+    if( age != "" && record.age == age)
+    {
+      hits.push( record.id);
+      continue;
+    }
+    if( mail != "" && record.mail.includes( mail))
+    {
+      hits.push( record.id);
+      continue;
+    }
+  }
+  display( [ ], hits);
+  event.preventDefault( );    //👉これは絶対必須
+}
+document.getElementById( "search").addEventListener( "click", Search);
